@@ -27,6 +27,9 @@ instance Functor Zipper where
 leaf :: t -> Zipper t
 leaf v = Zipper [] (T.Node v [])
 
+new :: [t] -> Zipper t -> Zipper t
+new (x:xs) _ = Zipper [] (T.Node x (map (\x' -> T.Node x' []) xs))
+
 instance Highlightable Zipper where 
   get (Zipper _ (T.Node v _)) = v
   put v (Zipper cs (T.Node _ children)) = Zipper cs (T.Node v children)
@@ -136,6 +139,7 @@ instance (Show t) => Show (Zipper t) where
 commandParser :: (Read t) => CommandParser (Zipper t)
 commandParser command = case words command of
   ["put", v] -> fmap put (readMaybe v)
+  ("new":args) -> fmap new (traverse readMaybe args)
   ["insert", v, "at", "child", i] -> 
     insertChildAt <$> (readMaybe v) <*> (readMaybe i)
   ["child", i] -> fmap child (readMaybe i)

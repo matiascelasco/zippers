@@ -3,6 +3,7 @@ module BinaryTreeZipper where
 import Command (CommandParser)
 import qualified Data.Tree as T
 import Data.Tree.Pretty (drawVerticalTree)
+import qualified Data.Vector as V
 import Highlight (Highlightable, get, put, highlightCurrent)
 import Text.Read (readMaybe)
 
@@ -34,8 +35,16 @@ instance Functor Zipper where
 empty :: Zipper t
 empty = Zipper [] Empty
 
-leaf :: t -> Zipper t
-leaf v = Zipper [] (Node Empty v Empty)
+new :: [t] -> Zipper t -> Zipper t
+new xs _ = Zipper [] (new' 1)
+  where 
+  v = V.fromList xs
+  new' i | i > V.length v = Empty
+            | otherwise = Node l x r
+            where
+              l = new' (i * 2)
+              x = v V.! (i - 1)
+              r = new' (i * 2 + 1)
 
 instance Highlightable Zipper where 
   get (Zipper _ Empty) = error "The tree is empty"
@@ -44,13 +53,6 @@ instance Highlightable Zipper where
   put _ (Zipper _ Empty) = 
     error "Can't replace the current value: the tree is empty"
   put v (Zipper cs (Node l _ r)) = Zipper cs (Node l v r)
-
-insert :: t -> Zipper t -> Zipper t
-insert v (Zipper [] Empty) = leaf v
-insert _ _ = error $ concat [
-    "'insert' is only allowed when the tree is empty. ", 
-    "Use 'insert left' or 'insert right' instead."
-  ]
 
 insertLeft :: t -> Zipper t -> Zipper t
 insertLeft lv (Zipper cs (Node Empty v r)) =
@@ -160,7 +162,7 @@ instance (Show t) => Show (Zipper t) where
 commandParser :: (Read t) => CommandParser (Zipper t)
 commandParser x = case words x of
   ["put", v] -> fmap put (readMaybe v)
-  ["insert", v] -> fmap insert (readMaybe v)
+  ("new":args) -> fmap new (traverse readMaybe args)
   ["insert", "left", v] -> fmap insertLeft (readMaybe v)
   ["insert", "right", v] -> fmap insertRight (readMaybe v)
   ["left"] -> Just left

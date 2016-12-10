@@ -4,8 +4,8 @@
 
 ##### list-zipper.hs
 
+* `new x1 x2 x3 .. xN`: recibe una lista de enteros como parámetro y crea una nueva lista con esos valores, reemplazando cualquier lista preexistente.
 *  `put x`: recibe un entero como parámetro el cual reemplaza al valor en la posición actual. Se asume que la lista no está vacía.
-* `insert x`: recibe un entero como parámetro y lo inserta como el único elemento en la lista, la cual se asume que está vacía.
 * `insert before x`: recibe un entero como parámetro y lo inserta antes de la posición actual. Se asume que la lista no está vacía.
 * `insert after x`: recibe un entero como parámetro y lo inserta después de la posición actual. Se asume que la lista no está vacía.
 * `next`: mueve el foco de atención una posición hacia adelante. Se asume que la lista no está vacía y que el foco no está al final de la lista.
@@ -15,8 +15,8 @@
 
 ##### binary-tree-zipper.hs
 
+* `new x1 x2 x3 .. xN`: recibe una lista de enteros como parámetro y crea un  nuevo árbol con esos valores, reemplazando cualquier árbol preexistente. Se construye de forma tal que el orden de los números en la lista ingresada sea el de un recorrido por niveles.
 *  `put x`: recibe un entero como parámetro el cual reemplaza al valor en la raíz del subárbol actual. Se asume que el árbol no está vacío.
-* `insert x`: recibe un entero como parámetro y lo inserta como raíz del árbol. Se asume que el árbol está vacío.
 * `insert left x`: recibe un entero como parámetro y lo inserta como una hoja, la cual pasa a ser el hijo izquierdo del nodo actual. Se asume que el árbol no está vacío y que el nodo actual no tiene un hijo izquierdo.
 * `insert rigth x`: recibe un entero como parámetro y lo inserta como una hoja, la cual pasa a ser el hijo derecho del nodo actual. Se asume que el árbol no está vacío y que el nodo actual no tiene un hijo derecho.
 * `left`: mueve el foco de atención al hijo izquierdo del nodo actual. Se asume que el árbol no está vacío y el hijo izquierdo existe.
@@ -27,6 +27,7 @@
 
 ##### tree-zipper.hs
 
+* `new x1 x2 x3 .. xN`: recibe una lista de enteros como parámetro y crea un nuevo árbol de a lo sumo dos niveles con esos valores, reemplazando cualquier árbol preexistente. El primer número ocupa la raíz mientras que los demás son  sus hijos.
 *  `put x`: recibe un entero como parámetro el cual reemplaza al valor en la raíz del subárbol actual.
 * `insert x at child i`: recibe dos enteros como parámetro. El primero es el valor que ocupará la raíz de una nueva hoja, la cual pasara a ocupar la posición indicada por el segundo en la lista de hijos.
 * `child i`: recibe un entero como parámetro y mueve el foco de atención al `i`-ésimo hijo del nodo actual. Se asume que el nodo actual tiene al menos `i` hijos.

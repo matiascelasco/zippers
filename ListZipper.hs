@@ -16,9 +16,6 @@ instance Functor Zipper where
 
 --------------------------------------------------------------------------------
 
-fromList :: [t] -> Zipper t
-fromList xs = Zipper [] xs
-
 toList :: Zipper t -> [t]
 toList (Zipper cs xs) = toList' cs xs
   where
@@ -26,7 +23,10 @@ toList (Zipper cs xs) = toList' cs xs
   toList' (x:cs') xs' = toList' cs' (x:xs')
 
 empty :: Zipper t
-empty = fromList []
+empty = Zipper [] []
+
+new :: [t] -> Zipper t -> Zipper t
+new xs _ = Zipper [] xs
 
 instance Highlightable Zipper where
   get (Zipper _ []) = error "Can't get the current value: The list is empty"
@@ -82,8 +82,8 @@ instance (Show t) => Show (Zipper t) where
 
 commandParser :: (Read t) => CommandParser (Zipper t)
 commandParser x = case words x of
+  ("new":args) -> fmap new (traverse readMaybe args)
   ["put", v] -> fmap put (readMaybe v)
-  ["insert", v] -> fmap insert (readMaybe v)
   ["insert", "before", v] -> fmap insertBefore (readMaybe v)
   ["insert", "after", v] -> fmap insertAfter (readMaybe v)
   ["next"] -> Just next
