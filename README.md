@@ -21,8 +21,8 @@
 * `insert rigth x`: recibe un entero como parámetro y lo inserta como una hoja, la cual pasa a ser el hijo derecho del nodo actual. Se asume que el árbol no está vacío y que el nodo actual no tiene un hijo derecho.
 * `left`: mueve el foco de atención al hijo izquierdo del nodo actual. Se asume que el árbol no está vacío y el hijo izquierdo existe.
 * `right`: mueve el foco de atención al hijo derecho del nodo actual. Se asume que el árbol no está vacío y el hijo derecho existe.
-* `up`: mueve el foco de atención al padre del nodo actual. Se asume que el árbol no está vacío y el hijo derecho existe y que el nodo actual no es la raíz.
 * `sibling`: mueve el foco de atención al hermano del nodo actual, asumiendo que existe.
+* `up`: mueve el foco de atención al padre del nodo actual. Se asume que el árbol no está vacío y el hijo derecho existe y que el nodo actual no es la raíz.
 * `delete`: elimina el subárbol actual y mueve el foco al nodo padre si este existe.
 
 ##### tree-zipper.hs
